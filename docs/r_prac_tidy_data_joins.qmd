@@ -1,0 +1,84 @@
+---
+title: "R Practice: Tidy Data and Joins"
+format: html
+---
+
+##Set up
+```{r}
+library(readr)
+library(dplyr)
+library(lubridate)
+```
+
+
+## Obtain and read data from the EDI Data Portal
+
+```{r}
+bird_observations <- read_csv("https://portal.edirepository.org/nis/dataviewer?packageid=knb-lter-cap.256.10&entityid=53edaa7a0e083013d9bf20322db1780e")
+
+sites <- read_csv("https://portal.edirepository.org/nis/dataviewer?packageid=knb-lter-cap.256.10&entityid=81bf72420e69077097fb0790dcdc63a6")
+
+surveys <- read_csv("https://portal.edirepository.org/nis/dataviewer?packageid=knb-lter-cap.256.10&entityid=b2466fa5cb5ed7ee1ea91398fc291c59")
+
+taxalist <- read_csv("https://portal.edirepository.org/nis/dataviewer?packageid=knb-lter-cap.256.10&entityid=58f863b7e3066e68536a9cacdc7bd58e")
+```
+
+## Explore data
+```{r}
+
+View(bird_observations)
+head(bird_observations)
+colnames(bird_observations)
+summary(bird_observations)
+unique(bird_observations$species_id)
+glimpse(bird_observations)
+
+```
+
+### Identifying primary and foreign keys
+# species_ID is the foreign key between bird_observations and taxalist 
+# survey_ID, survey_ID, and site_ID is the primary key for bird_observations and species_ID is the primary key for taxalist, with no foreign key
+
+### Create a subset of bird_observations
+```{r}
+
+bird_subset <- bird_observations %>% 
+  filter(species_id %in% c("BHCO" , "RWBL")) %>% 
+  filter(site_id %in% c("LI-W" , "NU-C"))
+
+# this code is calling bird_observations, bird_subset and is using the pipe to funnel out species_id and site_id, and we are filtering the rows with species id of BHCO and RWBL and those with a site_id of LI-W and NU-C
+```
+
+### expecting a `left_join()` between the birds_subset and sites to contain site_id with observations only from LI-W and NU-C, park_code, park_district, park_name, point_code, point_location, & park_acreage
+
+## Left join
+
+```{r}
+birds_left <- bird_subset %>%
+  left_join(y = sites, by = "site_id")
+head(birds_left)
+glimpse(birds_left)
+
+# so this is merging two tables together, using the leftjoin() function, you don't need to add that birdsubset is equal to x because using the pipe function %>% is just assuming that you are keeping everything from that subset of data 
+```
+
+## Full join
+# a full join should have all of the column names ? 
+```{r}
+birds_full <- bird_subset %>% 
+  full_join(y = sites, by = "site_id")
+
+head(birds_full)
+```
+
+
+## Inner Join
+## an inner join should have only things that match between the tables so between bird_subset and taxalist, the things we should see is species_id
+
+
+
+
+
+
+
+
