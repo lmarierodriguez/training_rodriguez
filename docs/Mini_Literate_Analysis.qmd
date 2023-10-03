@@ -1,0 +1,70 @@
+---
+title: "Mini Literate Analysis"
+author: "Leeza-marie Rodriguez"
+format: html
+---
+
+## Introduction
+
+### About This Data
+
+The authors of this paper determined various parameters of seawater chemistry along with temperature, conductivity, and depth [data](https://arcticdata.io/catalog/view/doi:10.18739/A25T3FZ8X) of the Arctic Ocean.
+
+### Setup
+
+```{r}
+library(readr)
+library(here)
+
+```
+
+### Read Data
+
+```{r}
+#| warning: false
+bg_chem <- read_csv(here("data/BGchem2008data.csv"))
+
+bg_chem <- read_csv("../data/BGchem2008data.csv")
+
+```
+
+Exploring Our Data
+
+```{r}
+#| eval: false
+colnames(bg_chem)
+
+
+str(bg_chem)
+
+summary(bg_chem)
+
+unique(bg_chem$Date)
+```
+
+## Analysis
+
+### Calculate summary statistics
+
+```{r}
+nitrate <- mean(bg_chem$NO3)
+nitrite <- mean(bg_chem$NO2)
+ammonium <- mean(bg_chem$NH4)
+phos <- mean(bg_chem$P)
+```
+
+### Calculate the mean of Redfield ratio
+
+```{r}
+ratio <- (nitrate + nitrite + ammonium / phos)
+```
+
+### Plot ratio
+
+```{r}
+plot(bg_chem$P, bg_chem$NO2 + bg_chem$NO3 + bg_chem$NH4)
+```
+
+## Conclusion
+
+The Redfield Ratio of this data is `r round(ratio)`

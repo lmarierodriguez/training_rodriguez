@@ -1,0 +1,67 @@
+---
+title: "intro_to_Quarto"
+format: html
+bibliography: references.bib
+execute: 
+  echo: false
+---
+
+# Header 1
+
+I'm going to ***bold this text***
+
+*italic* **bold**
+
+-   Item 1
+-   Item 2
+    -   Item 2a
+    -   Item 2b
+
+## Header 2
+
+[here](https://bren.ucsb.edu/masters-programs/master-environmental-data-science)
+
+### Header 3
+
+Inserting tables
+
+| Col1      | Col2   | Col3  |
+|-----------|--------|-------|
+| Element 1 | jffjsj | sfds  |
+| Element 2 | fsdfs  | sdfsd |
+| Element 3 | sdfs   | sfdsf |
+
+#### Header 4
+This is a very important fact [@oke2020]
+
+
+##### Code Chunks
+
+```{r}
+#| echo: false
+x <- 4*8
+
+hight_vec <- c(5.2, 6.0, 5.7)
+
+x
+
+hight_vec
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
